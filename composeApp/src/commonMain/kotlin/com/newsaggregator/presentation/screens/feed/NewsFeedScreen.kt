@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.newsaggregator.domain.model.Category
 import com.newsaggregator.presentation.components.ArticleCard
@@ -61,6 +62,7 @@ fun NewsFeedScreen(
                     Text(
                         text = "NewsToday",
                         style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.testTag("feed_title"),
                     )
                 },
                 actions = {
@@ -122,7 +124,7 @@ fun NewsFeedScreen(
 
                     else -> {
                         LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = Modifier.fillMaxSize().testTag("articles_list"),
                             contentPadding = PaddingValues(16.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                         ) {

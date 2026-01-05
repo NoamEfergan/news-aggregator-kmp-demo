@@ -8,6 +8,14 @@ Compose Multiplatform news reader that fetches RSS feeds, persists them locally,
 - Presents a clean Compose UI with tabs, search, pull-to-refresh, and detail screens.
 - Shares domain/presentation logic across platforms while using lightweight platform glue (Android Activity / iOS UIViewController).
 
+## Demo
+
+| Android | iOS |
+|---------|-----|
+| <video src="assets/demo-android.mp4" width="300"></video> | <video src="assets/demo-ios.mp4" width="300"></video> |
+
+*Click to play the demo videos*
+
 ## Tech stack
 - **Kotlin Multiplatform + Compose Multiplatform** for shared UI and logic.
 - **Ktor** client for networking with JSON serialization.

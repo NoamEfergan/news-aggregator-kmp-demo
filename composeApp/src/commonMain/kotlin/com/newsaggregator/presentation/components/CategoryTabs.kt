@@ -9,6 +9,7 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.newsaggregator.domain.model.Category
 
@@ -23,7 +24,7 @@ fun CategoryTabs(
 
     ScrollableTabRow(
         selectedTabIndex = selectedIndex.coerceAtLeast(0),
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().testTag("category_tabs"),
         edgePadding = 16.dp,
         containerColor = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.primary,
@@ -40,6 +41,7 @@ fun CategoryTabs(
             Tab(
                 selected = category == selectedCategory,
                 onClick = { onCategorySelected(category) },
+                modifier = Modifier.testTag("category_tab_${category.name}"),
                 text = {
                     Text(
                         text = category.displayName,

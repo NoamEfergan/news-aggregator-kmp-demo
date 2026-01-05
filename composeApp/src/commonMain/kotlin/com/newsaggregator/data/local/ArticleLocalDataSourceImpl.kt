@@ -6,7 +6,6 @@ import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.newsaggregator.db.ArticleEntity
 import com.newsaggregator.db.NewsDatabase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
@@ -15,18 +14,18 @@ class ArticleLocalDataSourceImpl(
 ) : ArticleLocalDataSource {
     private val queries = database.articleQueries
 
-    override fun getAllArticles(): Flow<List<ArticleEntity>> = queries.getAllArticles().asFlow().mapToList(Dispatchers.IO)
+    override fun getAllArticles(): Flow<List<ArticleEntity>> = queries.getAllArticles().asFlow().mapToList(Dispatchers.Default)
 
     override fun getArticlesByCategory(category: String): Flow<List<ArticleEntity>> =
-        queries.getArticlesByCategory(category).asFlow().mapToList(Dispatchers.IO)
+        queries.getArticlesByCategory(category).asFlow().mapToList(Dispatchers.Default)
 
-    override fun getArticleById(id: String): Flow<ArticleEntity?> = queries.getArticleById(id).asFlow().mapToOneOrNull(Dispatchers.IO)
+    override fun getArticleById(id: String): Flow<ArticleEntity?> = queries.getArticleById(id).asFlow().mapToOneOrNull(Dispatchers.Default)
 
     override fun searchArticles(query: String): Flow<List<ArticleEntity>> =
-        queries.searchArticles(query, query).asFlow().mapToList(Dispatchers.IO)
+        queries.searchArticles(query, query).asFlow().mapToList(Dispatchers.Default)
 
     override suspend fun insertArticles(articles: List<ArticleEntity>) {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             database.transaction {
                 articles.forEach { article ->
                     queries.insertArticle(
@@ -48,13 +47,13 @@ class ArticleLocalDataSourceImpl(
     }
 
     override suspend fun deleteAllArticles() {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             queries.deleteAllArticles()
         }
     }
 
     override suspend fun deleteOldArticles(olderThan: Long) {
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             queries.deleteOldArticles(olderThan)
         }
     }

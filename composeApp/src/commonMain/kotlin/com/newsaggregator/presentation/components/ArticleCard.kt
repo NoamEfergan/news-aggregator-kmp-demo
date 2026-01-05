@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,6 +35,7 @@ fun ArticleCard(
         modifier =
             modifier
                 .fillMaxWidth()
+                .testTag("article_card")
                 .clickable(onClick = onClick),
         shape = MaterialTheme.shapes.medium,
         colors =

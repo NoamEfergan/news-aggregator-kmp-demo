@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
@@ -97,6 +98,7 @@ fun ArticleDetailScreen(
                         modifier =
                             Modifier
                                 .fillMaxSize()
+                                .testTag("article_detail_content")
                                 .verticalScroll(rememberScrollState()),
                     ) {
                         article.imageUrl?.let { imageUrl ->

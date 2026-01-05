@@ -11,7 +11,7 @@ import kotlinx.coroutines.coroutineScope
 class RssServiceImpl(
     private val rssParser: RssParser,
 ) : RssService {
-    private val limitedDispatcher = Dispatchers.IO.limitedParallelism(8)
+    private val limitedDispatcher = Dispatchers.Default.limitedParallelism(8)
 
     override suspend fun fetchFeed(url: String): Result<RssChannel> =
         runCatching {

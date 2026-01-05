@@ -1,0 +1,56 @@
+appId: com.newsaggregator
+name: "News Aggregator Full Demo"
+---
+
+# === SECTION 1: App Launch ===
+- launchApp:
+    clearState: true
+
+# Wait for content to load
+- extendedWaitUntil:
+    visible: "NewsToday"
+    timeout: 20000
+
+# === SECTION 2: Category Navigation ===
+- tapOn: "World"
+- extendedWaitUntil:
+    visible: "World"
+    timeout: 5000
+
+- tapOn: "Tech"
+- extendedWaitUntil:
+    visible: "Tech"
+    timeout: 5000
+
+- tapOn: "Sports"
+- extendedWaitUntil:
+    visible: "Sports"
+    timeout: 5000
+
+# === SECTION 3: Browse Articles ===
+- scroll
+
+- scroll
+
+# === SECTION 4: Search Functionality ===
+- tapOn: "Search"
+
+- extendedWaitUntil:
+    visible: "Search articles..."
+    timeout: 5000
+
+# Type search query
+- inputText: "news"
+
+# Navigate back
+- tapOn: "Back"
+
+- extendedWaitUntil:
+    visible: "NewsToday"
+    timeout: 5000
+
+# Final state - show Tech category
+- tapOn: "Tech"
+- extendedWaitUntil:
+    visible: "Tech"
+    timeout: 5000

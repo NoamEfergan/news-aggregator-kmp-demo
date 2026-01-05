@@ -1,0 +1,33 @@
+appId: com.newsaggregator.ios
+name: "News Aggregator Full Demo (iOS)"
+---
+
+# === SECTION 1: App Launch ===
+- launchApp:
+    clearState: true
+
+# Wait for content to load
+- extendedWaitUntil:
+    visible: "NewsToday"
+    timeout: 25000
+
+# === SECTION 2: Browse Articles ===
+- scroll
+
+- scroll
+
+- scroll
+
+# Scroll back up
+- swipe:
+    start: "50%, 30%"
+    end: "50%, 70%"
+
+- swipe:
+    start: "50%, 30%"
+    end: "50%, 70%"
+
+# More scrolling
+- scroll
+
+- scroll

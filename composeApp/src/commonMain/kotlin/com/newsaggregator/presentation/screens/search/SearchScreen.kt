@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.newsaggregator.presentation.components.ArticleCard
 import com.newsaggregator.presentation.components.LoadingIndicator
@@ -63,7 +64,7 @@ fun SearchScreen(
                             )
                         },
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().testTag("search_input"),
                         colors =
                             TextFieldDefaults.colors(
                                 unfocusedContainerColor = Color.Transparent,
@@ -143,7 +144,7 @@ fun SearchScreen(
 
                 else -> {
                     LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().testTag("search_results"),
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
