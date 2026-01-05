@@ -1,0 +1,45 @@
+CREATE TABLE ArticleEntity (
+    id TEXT NOT NULL PRIMARY KEY,
+    title TEXT NOT NULL,
+    summary TEXT,
+    content TEXT,
+    author TEXT,
+    imageUrl TEXT,
+    sourceUrl TEXT NOT NULL,
+    sourceName TEXT NOT NULL,
+    category TEXT NOT NULL,
+    publishedAt INTEGER NOT NULL,
+    cachedAt INTEGER NOT NULL
+);
+
+CREATE INDEX article_category_idx ON ArticleEntity(category);
+CREATE INDEX article_published_idx ON ArticleEntity(publishedAt);
+
+getAllArticles:
+SELECT * FROM ArticleEntity ORDER BY publishedAt DESC;
+
+getArticlesByCategory:
+SELECT * FROM ArticleEntity WHERE category = ? ORDER BY publishedAt DESC;
+
+getArticleById:
+SELECT * FROM ArticleEntity WHERE id = ?;
+
+searchArticles:
+SELECT * FROM ArticleEntity
+WHERE title LIKE '%' || ? || '%' OR summary LIKE '%' || ? || '%'
+ORDER BY publishedAt DESC;
+
+insertArticle:
+INSERT OR REPLACE INTO ArticleEntity(
+    id, title, summary, content, author, imageUrl,
+    sourceUrl, sourceName, category, publishedAt, cachedAt
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+deleteAllArticles:
+DELETE FROM ArticleEntity;
+
+deleteArticlesByCategory:
+DELETE FROM ArticleEntity WHERE category = ?;
+
+deleteOldArticles:
+DELETE FROM ArticleEntity WHERE cachedAt < ?;
