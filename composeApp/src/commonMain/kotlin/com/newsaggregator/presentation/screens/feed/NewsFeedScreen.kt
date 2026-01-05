@@ -102,7 +102,7 @@ fun NewsFeedScreen(
 
                     state.error != null && state.articles.isEmpty() -> {
                         ErrorView(
-                            message = state.error ?: "Unknown error",
+                            message = requireNotNull(state.error),
                             onRetry = viewModel::onRefresh,
                         )
                     }

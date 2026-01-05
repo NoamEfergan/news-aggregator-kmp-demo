@@ -19,16 +19,18 @@ fun CategoryTabs(
     onCategorySelected: (Category) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val selectedIndex = categories.indexOf(selectedCategory)
+
     ScrollableTabRow(
-        selectedTabIndex = categories.indexOf(selectedCategory),
+        selectedTabIndex = selectedIndex.coerceAtLeast(0),
         modifier = modifier.fillMaxWidth(),
         edgePadding = 16.dp,
         containerColor = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.primary,
         indicator = { tabPositions ->
-            if (selectedCategory in categories) {
+            if (selectedIndex >= 0) {
                 TabRowDefaults.SecondaryIndicator(
-                    modifier = Modifier.tabIndicatorOffset(tabPositions[categories.indexOf(selectedCategory)]),
+                    modifier = Modifier.tabIndicatorOffset(tabPositions[selectedIndex]),
                     color = MaterialTheme.colorScheme.primary,
                 )
             }

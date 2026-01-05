@@ -29,12 +29,15 @@ class SearchViewModel(
                 .debounce(300)
                 .distinctUntilChanged()
                 .flatMapLatest { query ->
-                    _state.update { it.copy(isSearching = query.isNotEmpty()) }
+                    _state.update { it.copy(isSearching = query.isNotEmpty(), error = null) }
                     searchArticlesUseCase(query)
-                }.catch { /* Handle error silently */ }
-                .collect { results ->
+                }.catch { e ->
                     _state.update {
-                        it.copy(results = results, isSearching = false)
+                        it.copy(isSearching = false, error = e.message ?: "Search failed")
+                    }
+                }.collect { results ->
+                    _state.update {
+                        it.copy(results = results, isSearching = false, error = null)
                     }
                 }
         }

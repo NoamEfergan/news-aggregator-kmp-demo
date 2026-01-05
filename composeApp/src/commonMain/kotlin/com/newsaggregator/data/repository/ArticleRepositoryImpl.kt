@@ -35,7 +35,13 @@ class ArticleRepositoryImpl(
             val results = rssService.fetchAllFeeds()
             val articles =
                 results.flatMap { (category, result) ->
-                    result.getOrNull()?.toArticles(category) ?: emptyList()
+                    result.fold(
+                        onSuccess = { it.toArticles(category) },
+                        onFailure = { error ->
+                            println("Failed to fetch feeds for $category: ${error.message}")
+                            emptyList()
+                        },
+                    )
                 }
 
             val currentTime = Clock.System.now().toEpochMilliseconds()
@@ -53,7 +59,13 @@ class ArticleRepositoryImpl(
             val results = rssService.fetchFeedsByCategory(category)
             val articles =
                 results.flatMap { result ->
-                    result.getOrNull()?.toArticles(category) ?: emptyList()
+                    result.fold(
+                        onSuccess = { it.toArticles(category) },
+                        onFailure = { error ->
+                            println("Failed to fetch feeds for $category: ${error.message}")
+                            emptyList()
+                        },
+                    )
                 }
 
             val currentTime = Clock.System.now().toEpochMilliseconds()

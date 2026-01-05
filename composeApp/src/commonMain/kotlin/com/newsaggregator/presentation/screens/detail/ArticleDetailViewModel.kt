@@ -21,12 +21,13 @@ class ArticleDetailViewModel(
         loadArticle()
     }
 
-    private fun loadArticle() {
+    fun loadArticle() {
+        _state.update { it.copy(isLoading = true, error = null) }
         viewModelScope.launch {
             getArticleByIdUseCase(articleId)
                 .catch { e ->
                     _state.update {
-                        it.copy(error = e.message, isLoading = false)
+                        it.copy(error = e.message ?: "Unknown error occurred", isLoading = false)
                     }
                 }.collect { article ->
                     _state.update {

@@ -31,16 +31,24 @@ class NewsFeedViewModel(
 
     fun onRefresh() {
         viewModelScope.launch {
-            _state.update { it.copy(isRefreshing = true) }
+            _state.update { it.copy(isRefreshing = true, error = null) }
 
             val result = refreshArticlesUseCase(_state.value.selectedCategory)
 
-            _state.update {
-                it.copy(
-                    isRefreshing = false,
-                    error = result.exceptionOrNull()?.message,
-                )
-            }
+            result.fold(
+                onSuccess = {
+                    _state.update { it.copy(isRefreshing = false, error = null) }
+                    loadArticles()
+                },
+                onFailure = { error ->
+                    _state.update {
+                        it.copy(
+                            isRefreshing = false,
+                            error = error.message ?: "Refresh failed",
+                        )
+                    }
+                },
+            )
         }
     }
 
@@ -50,14 +58,14 @@ class NewsFeedViewModel(
 
     private fun loadArticles() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
+            _state.update { it.copy(isLoading = true, error = null) }
 
             getArticlesUseCase(_state.value.selectedCategory)
                 .catch { e ->
-                    _state.update { it.copy(error = e.message, isLoading = false) }
+                    _state.update { it.copy(error = e.message ?: "Failed to load articles", isLoading = false) }
                 }.collect { articles ->
                     _state.update {
-                        it.copy(articles = articles, isLoading = false)
+                        it.copy(articles = articles, isLoading = false, error = null)
                     }
                 }
         }

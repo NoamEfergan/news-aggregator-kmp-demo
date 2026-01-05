@@ -37,6 +37,7 @@ Pods/
 # Build outputs
 composeApp/build/
 iosApp/build/
+.kotlin/
 
 # Secrets
 *.keystore

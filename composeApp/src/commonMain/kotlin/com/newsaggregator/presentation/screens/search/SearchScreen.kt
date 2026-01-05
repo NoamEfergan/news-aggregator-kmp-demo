@@ -102,6 +102,19 @@ fun SearchScreen(
                     LoadingIndicator()
                 }
 
+                state.error != null -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            text = state.error ?: "An error occurred",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                    }
+                }
+
                 state.query.isEmpty() -> {
                     Box(
                         modifier = Modifier.fillMaxSize(),

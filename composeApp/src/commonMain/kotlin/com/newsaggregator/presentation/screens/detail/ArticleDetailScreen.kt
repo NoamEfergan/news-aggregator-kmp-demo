@@ -87,7 +87,7 @@ fun ArticleDetailScreen(
                 state.error != null -> {
                     ErrorView(
                         message = state.error ?: "Unknown error",
-                        onRetry = { },
+                        onRetry = { viewModel.loadArticle() },
                     )
                 }
 

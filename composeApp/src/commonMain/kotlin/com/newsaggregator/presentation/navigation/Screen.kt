@@ -2,6 +2,7 @@ package com.newsaggregator.presentation.navigation
 
 import kotlinx.serialization.Serializable
 
+@Serializable
 sealed interface Screen {
     @Serializable
     data object Feed : Screen

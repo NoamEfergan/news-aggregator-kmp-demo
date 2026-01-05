@@ -6,4 +6,5 @@ data class SearchState(
     val query: String = "",
     val results: List<Article> = emptyList(),
     val isSearching: Boolean = false,
+    val error: String? = null,
 )

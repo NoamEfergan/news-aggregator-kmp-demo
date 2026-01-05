@@ -17,7 +17,18 @@ fun RssItem.toArticle(
             ?: Clock.System.now()
 
     return Article(
-        id = generateArticleId(link ?: guid ?: title ?: ""),
+        id =
+            generateArticleId(
+                link
+                    ?: guid
+                    ?: title
+                    ?: listOfNotNull(pubDate, description?.take(50)).joinToString("|").ifBlank {
+                        Clock.System
+                            .now()
+                            .toEpochMilliseconds()
+                            .toString()
+                    },
+            ),
         title = title ?: "Untitled",
         summary = description?.stripHtml()?.take(300),
         content = content ?: description,
@@ -66,6 +77,20 @@ private fun parseRfc822Date(dateString: String): Instant {
             "Nov" to 11,
             "Dec" to 12,
         )
+    val timezoneOffsets =
+        mapOf(
+            "GMT" to "+00:00",
+            "UTC" to "+00:00",
+            "UT" to "+00:00",
+            "EST" to "-05:00",
+            "EDT" to "-04:00",
+            "CST" to "-06:00",
+            "CDT" to "-05:00",
+            "MST" to "-07:00",
+            "MDT" to "-06:00",
+            "PST" to "-08:00",
+            "PDT" to "-07:00",
+        )
 
     val parts = dateString.replace(",", "").split(" ").filter { it.isNotBlank() }
     if (parts.size < 5) throw IllegalArgumentException("Invalid date format")
@@ -78,7 +103,15 @@ private fun parseRfc822Date(dateString: String): Instant {
     val minute = timeParts.getOrNull(1)?.toInt() ?: 0
     val second = timeParts.getOrNull(2)?.toInt() ?: 0
 
-    val isoString = "${year.pad(4)}-${month.pad(2)}-${day.pad(2)}T${hour.pad(2)}:${minute.pad(2)}:${second.pad(2)}Z"
+    val tzToken = parts.getOrNull(5)
+    val offset =
+        when {
+            tzToken == null -> "+00:00"
+            tzToken.matches(Regex("[+-]\\d{4}")) -> "${tzToken.take(3)}:${tzToken.takeLast(2)}"
+            else -> timezoneOffsets[tzToken] ?: "+00:00"
+        }
+
+    val isoString = "${year.pad(4)}-${month.pad(2)}-${day.pad(2)}T${hour.pad(2)}:${minute.pad(2)}:${second.pad(2)}$offset"
 
     return Instant.parse(isoString)
 }
