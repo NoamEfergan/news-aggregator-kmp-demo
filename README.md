@@ -12,9 +12,9 @@ Compose Multiplatform news reader that fetches RSS feeds, persists them locally,
 
 | Android | iOS |
 |---------|-----|
-| <video src="assets/demo-android.mp4" width="300"></video> | <video src="assets/demo-ios.mp4" width="300"></video> |
+| [▶️ Watch Android Demo](https://github.com/NoamEfergan/news-aggregator-kmp-demo/blob/main/assets/demo-android.mp4) | [▶️ Watch iOS Demo](https://github.com/NoamEfergan/news-aggregator-kmp-demo/blob/main/assets/demo-ios.mp4) |
 
-*Click to play the demo videos*
+> Click the links above to watch the demo videos in GitHub's video player
 
 ## Tech stack
 - **Kotlin Multiplatform + Compose Multiplatform** for shared UI and logic.
